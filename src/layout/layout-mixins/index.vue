@@ -9,8 +9,9 @@ import { useSettingStore, useRouteStore } from "@/pinia";
 import { useMenuAreaMouse, useHeaderAreaMouse } from "../use-area-mouse";
 import PageContent from "../components/page-content/index.vue";
 import CollapseTrigger from "../components/header/components/collapse-trigger/index.vue";
-import Menu from "../components/menu/index.vue";
 import HeaderRight from "../components/header/header-right.vue";
+import Refresh from "../components/header/components/refresh/index.vue";
+import Menu from "../components/menu/index.vue";
 import TabNav from "../components/tab-nav/index.vue";
 
 import "./index.scss";
@@ -32,7 +33,7 @@ const { menuList } = useMenu();
 const activeMenu = ref("");
 const childrenMenu = ref<RouterConfig[]>([]);
 
-const { menu, logo, header } = storeToRefs(settingStore);
+const { menu, logo, header, widget } = storeToRefs(settingStore);
 
 /**
  * 头部菜单
@@ -80,7 +81,13 @@ watch(
 
 <template>
   <el-container
-    :class="[ns.join('layout'), ns.b(), ns.is('collapse', menu.collapsed), ns.is('expand', !menu.collapsed)]"
+    :class="[
+      ns.b(),
+      ns.join('layout'),
+      ns.join(`menu-theme-${menu.theme}`),
+      ns.is('menu-collapse', menu.collapsed),
+      ns.is('menu-expand', !menu.collapsed),
+    ]"
   >
     <el-header
       v-if="header.enabled"
@@ -94,13 +101,14 @@ watch(
       </div>
 
       <CollapseTrigger :class="ns.has('trigger', !childrenMenu.length)" />
+      <Refresh v-if="widget.refresh" />
 
       <Menu
         :menu-list="headerMenu"
         :active-menu="activeMenu"
         mode="horizontal"
         :is-collapse="false"
-        :class="[ns.join('layout-menu'), ns.e('header-menu'), ns.is(header.menuAlign)]"
+        :class="[ns.join('layout-menu'), ns.e('header-menu'), ns.is(`align-${header.menuAlign}`)]"
         :popper-class="`${ns.join('layout-menu-popper')} ${ns.b('menu-popper')}`"
       />
 
@@ -108,11 +116,11 @@ watch(
     </el-header>
 
     <el-container :class="ns.e('content')">
-      <el-aside v-if="childrenMenu.length" :class="[ns.join('layout-aside'), ns.is(menu.theme)]" :style="asideStyle">
+      <el-aside v-if="childrenMenu.length" :class="ns.join('layout-aside')" :style="asideStyle">
         <Menu
           :menu-list="childrenMenu"
-          :class="[ns.join('layout-menu'), ns.e('aside-menu'), ns.is(menu.style)]"
-          :popper-class="`${ns.join('layout-menu-popper')} ${ns.b('menu-popper')} ${ns.is(menu.style)}`"
+          :class="[ns.join('layout-menu'), ns.e('aside-menu'), ns.is(`style-${menu.style}`)]"
+          :popper-class="`${ns.join('layout-menu-popper')} ${ns.b('menu-popper')} ${ns.is(`theme-${menu.theme}`)} ${ns.is(`style-${menu.style}`)}`"
         />
       </el-aside>
 

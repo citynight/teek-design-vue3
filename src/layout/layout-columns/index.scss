@@ -24,6 +24,7 @@
 
     @include e(logo) {
       width: 100% !important;
+      margin-bottom: 10px;
 
       img {
         width: 45%;
@@ -46,7 +47,7 @@
         background-color: cssVar(layout-aside-bg-hover-color);
       }
 
-      :where(.#{$el-namespace}-icon, .svg-icon) {
+      :where(.#{$el-namespace}-icon, .#{$teek-namespace}-icon, .svg-icon) {
         font-size: 20px;
         color: cssVar(layout-aside-icon-color);
       }
@@ -61,13 +62,6 @@
       @include is(active) {
         font-weight: 700;
         background-color: cssVar(layout-aside-bg-active-color);
-
-        .title {
-          color: cssVarEl(menu-active-color);
-        }
-        :where(.#{$el-namespace}-icon, .svg-icon) {
-          color: cssVarEl(menu-active-color);
-        }
       }
 
       @include no(title) {
@@ -77,6 +71,7 @@
 
     @include e(collapse) {
       padding: 16px 0;
+      color: cssVar(layout-aside-icon-color);
       cursor: pointer;
       user-select: none;
 

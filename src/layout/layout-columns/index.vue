@@ -5,10 +5,10 @@ import { storeToRefs } from "pinia";
 import { ElContainer, ElAside, ElHeader, ElScrollbar } from "element-plus";
 import { Fold, Expand } from "@element-plus/icons-vue";
 import { serviceConfig, HOME_URL } from "@/common/config";
+import { simplifyText } from "@/common/utils";
 import { Tooltip } from "@/components";
-import { useCommon, useMenu } from "@/composables";
+import { useNamespace, useCommon, useMenu } from "@/composables";
 import { useSettingStore } from "@/pinia";
-import { useNamespace } from "@/composables";
 import { useMenuAreaMouse, useHeaderAreaMouse } from "../use-area-mouse";
 import PageContent from "../components/page-content/index.vue";
 import Header from "../components/header/index.vue";
@@ -88,7 +88,13 @@ const changeMenuItem = (item: RouterConfig) => {
 
 <template>
   <el-container
-    :class="[ns.join('layout'), ns.b(), ns.is('collapse', menu.collapsed), ns.is('expand', !menu.collapsed)]"
+    :class="[
+      ns.b(),
+      ns.join('layout'),
+      ns.join(`menu-theme-${menu.theme}`),
+      ns.is('menu-collapse', menu.collapsed),
+      ns.is('menu-expand', !menu.collapsed),
+    ]"
   >
     <div v-if="menu.enabled" :class="ns.e('aside')" class="flx-column">
       <div :class="[ns.e('logo'), ns.join('layout-logo')]" class="flx-center" @click="router.push(HOME_URL)">
@@ -131,14 +137,16 @@ const changeMenuItem = (item: RouterConfig) => {
       :style="{ ...asideStyle, left: '72px' }"
     >
       <div :class="[ns.e('logo'), ns.join('layout-logo')]" class="flx-center">
-        <span v-show="menuItem.length">{{ menu.collapsed ? "K" : serviceConfig.layout.name }}</span>
+        <span v-show="menuItem.length">
+          {{ menu.collapsed ? simplifyText(serviceConfig.layout.name) : serviceConfig.layout.name }}
+        </span>
       </div>
 
       <el-scrollbar v-if="menuItem?.length">
         <Menu
           :menu-list="menuItem"
-          :class="[ns.join('layout-menu'), ns.b('menu'), ns.is(menu.style)]"
-          :popper-class="`${ns.join('layout-menu-popper')} ${ns.b('menu-popper')} ${ns.is(menu.style)}`"
+          :class="[ns.join('layout-menu'), ns.b('menu'), ns.is(`style-${menu.style}`)]"
+          :popper-class="`${ns.join('layout-menu-popper')} ${ns.b('menu-popper')} ${ns.is(`theme-${menu.theme}`)} ${ns.is(`style-${menu.style}`)}`"
         />
       </el-scrollbar>
     </el-aside>

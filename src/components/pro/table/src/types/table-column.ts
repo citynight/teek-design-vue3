@@ -149,7 +149,7 @@ export type TableRow<T extends Recordable = any> =
  */
 export interface TableColumn<T extends Recordable = any>
   extends Partial<Omit<TableColumnCtx<T>, "children" | "renderCell" | "renderHeader" | "width" | "label">>,
-    Omit<ElDisplayProps, "originValue" | "displayValue" | "options" | "optionField">,
+    Omit<ElDisplayProps<T>, "originValue" | "displayValue" | "options" | "optionField">,
     Omit<OperationNamespace.ExtraProp, "el"> {
   /**
    * 表头宽度
@@ -183,6 +183,12 @@ export interface TableColumn<T extends Recordable = any>
    * 指定 Options 的 key，如果设置了则优先从缓存获取对于 key 的 Options 数据
    */
   optionsProp?: string;
+  /**
+   * 是否缓存字典数据
+   *
+   * @default true
+   */
+  optionCache?: boolean;
   /**
    * 字典指定 label && value && children 的 key 值
    *

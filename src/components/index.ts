@@ -4,6 +4,7 @@ export * from "./core/permission";
 export * from "./core/switch-dark";
 export * from "./core/tooltip";
 export * from "./core/point-tag";
+export * from "./core/alert-scroll";
 
 export * from "./pro/dialog";
 export * from "./pro/drawer";
@@ -20,6 +21,7 @@ export * from "./pro/page";
 export * from "./pro/pagination";
 export * from "./pro/search";
 export * from "./pro/table";
+export * from "./pro/tabs";
 export * from "./pro/tree-filter";
 
 // export * from "./pro/v1/pro-form";

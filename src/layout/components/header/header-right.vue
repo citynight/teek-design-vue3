@@ -75,8 +75,12 @@ const { isMobile } = useCommon();
         width cssVar(transition-duration),
         background-color cssVar(transition-duration);
 
+      &.#{$el-namespace}-dropdown {
+        color: inherit;
+      }
+
       &:hover {
-        background-color: rgb(cssVar(gray-300-rgb), 0.5);
+        background-color: cssVar(layout-header-bg-hover-color);
       }
     }
 
